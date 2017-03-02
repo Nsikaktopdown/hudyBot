@@ -61,33 +61,20 @@ function kittenMessage(recipientId, text) {
     text = text || "";
     var values = text.split(' ');
 
-    if (values.length === 3 && values[0] === 'kitten') {
+    if (values.length === 3 && values[0] === 'red') {
         if (Number(values[1]) > 0 && Number(values[2]) > 0) {
 
             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
             message = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [{
-                            "title": "Kitten",
-                            "subtitle": "Cute kitten picture",
-                            "image_url": imageUrl ,
-                            "buttons": [{
-                                "type": "web_url",
-                                "url": imageUrl,
-                                "title": "Show kitten"
-                                }, {
-                                "type": "postback",
-                                "title": "I like this",
-                                "payload": "User " + recipientId + " likes kitten " + imageUrl,
-                            }]
-                        }]
-                    }
-                }
-            };
+                "quick_replies":[
+      				{
+        				"content_type":"text",
+        				"title":"Red",
+        				"payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
+        				"image_url":"http://petersfantastichats.com/img/red.png"
+      				}
+           		 };
 
             sendMessage(recipientId, message);
 
