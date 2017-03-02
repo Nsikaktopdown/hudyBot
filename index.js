@@ -25,12 +25,13 @@ app.get('/webhook', function (req, res) {
 app.post('/webhook', function (req, res) {  
     var events = req.body.entry[0].messaging;
     for (i = 0; i < events.length; i++) {
-       // var event = events[i];
-        let event = req.body.entry[0].messaging[i]
+        var event = events[i];
         let sender = event.sender.id;
         if (event.message && event.message.text) {
-            sendMessage(event.sender.id, {text: event.message.text + " " + sender });
+        	if (!kittenMessage(event.sender.id, event.message.text)) {
+            sendMessage(event.sender.id, {text: event.message.text + " Am locusbot, how may i be of help? "  });
         }
+    		}
     }
     res.sendStatus(200);
 });
@@ -52,4 +53,41 @@ function sendMessage(recipientId, message) {
             console.log('Error: ', response.body.error);
         }
     });
+};
+
+// send rich message with kitten
+function kittenMessage(recipientId, text) {
+
+	var inputtext = new Array('hi', 'hello');
+    text = text || "";
+    var values = text.split(' ');
+
+    for(var i = 0; i<inputtext.length; i++){
+    	if(values[0] === inputtext[i]){
+
+ message = {  "message":{
+    "text":"Pick a color:",
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Red",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
+      },
+      {
+        "content_type":"text",
+        "title":"Green",
+        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+      }
+    ]
+  }
+};
+
+            sendMessage(recipientId, message);
+
+            return true;
+        }
+    }
+
+    return false;
+
 };
