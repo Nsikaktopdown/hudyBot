@@ -63,7 +63,7 @@ function kittenMessage(recipientId, text) {
 
     if (values[0] === 'red') {
         
-            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
+            //var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
             message = {
             	"text":"Pick a color:",
