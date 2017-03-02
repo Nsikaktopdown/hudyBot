@@ -58,29 +58,36 @@ function sendMessage(recipientId, message) {
 // send rich message with kitten
 function kittenMessage(recipientId, text) {
 
-	var inputtext = new Array('hi', 'hello');
     text = text || "";
     var values = text.split(' ');
 
-    for(var i = 0; i<inputtext.length; i++){
-    	if(values[0] === "hi"){
+    if (values.length === 3 && values[0] === 'kitten') {
+        if (Number(values[1]) > 0 && Number(values[2]) > 0) {
 
- message = {  "message":{
-    "text":"Pick a color:",
-    "quick_replies":[
-      {
-        "content_type":"text",
-        "title":"Red",
-        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-      },
-      {
-        "content_type":"text",
-        "title":"Green",
-        "payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-      }
-    ]
-  }
-};
+            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
+
+            message = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [{
+                            "title": "Kitten",
+                            "subtitle": "Cute kitten picture",
+                            "image_url": imageUrl ,
+                            "buttons": [{
+                                "type": "web_url",
+                                "url": imageUrl,
+                                "title": "Show kitten"
+                                }, {
+                                "type": "postback",
+                                "title": "I like this",
+                                "payload": "User " + recipientId + " likes kitten " + imageUrl,
+                            }]
+                        }]
+                    }
+                }
+            };
 
             sendMessage(recipientId, message);
 
