@@ -65,7 +65,7 @@ function kittenMessage(recipientId, text) {
         
             //var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
-         message = { 
+       var  message = { 
         	"recipient": {
       			"id": "recipientId" },
             	"message":{
