@@ -67,6 +67,7 @@ function kittenMessage(recipientId, text) {
             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
             message = {
+            	"text":"Pick a color:",
                 "quick_replies":[
       				{
         				"content_type":"text",
