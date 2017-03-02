@@ -66,6 +66,7 @@ function kittenMessage(recipientId, text) {
             //var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
             message = {
+            	"message":{
             	"text":"Pick a color:",
                 "quick_replies":[
       				{
@@ -74,6 +75,7 @@ function kittenMessage(recipientId, text) {
         				"payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
         				"image_url":"http://petersfantastichats.com/img/red.png"
       				}
+      			}
            		 };
 
             sendMessage(recipientId, message);
