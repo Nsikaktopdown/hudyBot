@@ -63,7 +63,7 @@ function kittenMessage(recipientId, text) {
     var values = text.split(' ');
 
     for(var i = 0; i<inputtext.length; i++){
-    	if(values[0] === inputtext[i]){
+    	if(values[0] === "hi"){
 
  message = {  "message":{
     "text":"Pick a color:",
