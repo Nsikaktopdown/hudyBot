@@ -65,17 +65,17 @@ function kittenMessage(recipientId, text) {
         
             //var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
-        var message = { 
-        	recipient: {
-      			id: recipientId },
-            	message:{
-            	text:"Pick a color:",
-                quick_replies:[
+         message = { 
+        	"recipient": {
+      			"id": "recipientId" },
+            	"message":{
+            	"text":"Pick a color:",
+                "quick_replies":[
       				{
-        				content_type:"text",
-        				title:"Red",
-        				payload:"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
-        				image_url:"http://petersfantastichats.com/img/red.png"
+        				"content_type":"text",
+        				"title":"Red",
+        				"payload":"DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED",
+        				"image_url":"http://petersfantastichats.com/img/red.png"
       				}
       			}
            		 };
