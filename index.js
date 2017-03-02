@@ -61,9 +61,8 @@ function kittenMessage(recipientId, text) {
     text = text || "";
     var values = text.split(' ');
 
-    if (values.length === 3 && values[0] === 'red') {
-        if (Number(values[1]) > 0 && Number(values[2]) > 0) {
-
+    if (values[0] === 'red') {
+        
             var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
 
             message = {
@@ -81,7 +80,7 @@ function kittenMessage(recipientId, text) {
 
             return true;
         }
-    }
+    
 
     return false;
 
