@@ -22,19 +22,28 @@ app.get('/webhook', function (req, res) {
 });
 
 // handler receiving messages
-app.post('/webhook', function (req, res) {  
-    var events = req.body.entry[0].messaging;
-    for (i = 0; i < events.length; i++) {
-        var event = events[i];
-        let sender = event.sender.id;
-        if (event.message && event.message.text) {
-        	if (!kittenMessage(event.sender.id, event.message.text)) {
-            sendMessage(event.sender.id, {text: event.message.text + " Am locusbot, how may i be of help? "  });
+app.post('/webhook', function (req, res) {
+  var data = req.body;
+
+  // Make sure this is a page subscription
+  if (data.object === 'page') {
+
+    // Iterate over each entry - there may be multiple if batched
+    data.entry.forEach(function(entry) {
+      var pageID = entry.id;
+      var timeOfEvent = entry.time;
+
+      // Iterate over each messaging event
+      entry.messaging.forEach(function(event) {
+        if (event.message) {
+          receivedMessage(event);
+        }else if (event.postback) {
+          //receivedPostback(event); 
+      } else {
+          console.log("Webhook received unknown event: ", event);
         }
-    		}
-    }
-    res.sendStatus(200);
-});
+      });
+    });
 
 // generic function sending messages
 function sendMessage(recipientId, message) {  
@@ -54,48 +63,115 @@ function sendMessage(recipientId, message) {
         }
     });
 };
+function receivedMessage(event) {
+  var senderID = event.sender.id;
+  var recipientID = event.recipient.id;
+  var timeOfMessage = event.timestamp;
+  var message = event.message;
+
+  console.log("Received message for user %d and page %d at %d with message:", 
+    senderID, recipientID, timeOfMessage);
+  console.log(JSON.stringify(message));
+
+  var messageId = message.mid;
+
+  var messageText = message.text;
+  var messageAttachments = message.attachments;
+
+  if (messageText) {
+
+     if(messageText.includes("hi") || messageText.includes("hey") || messageText.includes("hello") || messageText.includes("Hi") || messageText.includes("Hello") || messageText.includes("Hey")){
+        sendHelloMessage(senderID);
+    }/*else if(messageText.includes("launched") || messageText.includes("created") || messageText.includes("launch")){
+        sendMessage(senderID, "The Foundation was formally launched on 13th February, 2013.");
+    }else if(messageText.includes("history")){
+        sendMessage(senderID, "The Late Chief Andrew Akpan Inyang-Etoh Education Foundation was conceived and instituted by Rt. Rev. Msgr. Peter Andrew Inyang-Etoh to immortalize his late father who had a strong passion for Western education and endeavoured to provide same for his children within his limited resources. The Foundation was formally launched on 13th February, 2013, at the combined celebration of the 70th Birthday and 40th Anniversary of the Priestly Ordination of the Founder, Rt. Rev. Msgr. Peter Andrew Inyang-Etoh, held in the Church of Assumption, Ukana, Essien Udim Local Government Area, Akwa Ibom State.");
+    }else{
+         sendTextMessage(senderID);
+    }*/
+
+    // If we receive a text message, check to see if it matches a keyword
+    // and send back the example. Otherwise, just echo the text we received.
+    // switch (messageText) {
+    //   case messageText.includes("about"):
+    //     sendAboutMessage(senderID);
+    //     break;
+    //   case messageText.includes("award"):
+    //     sendAwardMessage(senderID);
+    //     break;
+    //   case messageText.includes("scholar"):
+    //     sendBeneficiaryMessage(senderID);
+    //     break;
 
 
-// send rich message with kitten
-function kittenMessage(recipientId, text) {
+    //   default:
+    //     sendTextMessage(senderID, messageText);
+    // }
+  } else if (messageAttachments) {
+    sendTextMessage(senderID, "Message with attachment received");
+  } 
+}
 
-    text = text || "";
-    var values = text.split(' ');
 
-    if (values[0] === 'movie') {
-       
-            var movieUrl = "https://www.themoviedb.org/movie/341174-fifty-shades-darker"
-            var imageUrl = "https://image.tmdb.org/t/p/w640/pBOFrQtvtEJ0goKO9NmVf3DiAnN.jpg";
-
-            message = {
-                "attachment": {
-                    "type": "template",
-                    "payload": {
-                        "template_type": "generic",
-                        "elements": [{
-                            "title": "Fifty Shades Darker",
-                            "subtitle": "last Movie picture",
-                            "image_url": imageUrl ,
-                            "buttons": [{
-                                "type": "web_url",
-                                "url": movieUrl,
-                                "title": "Show movie"
-                                }, {
-                                "type": "postback",
-                                "title": "I like this",
-                                "payload": "User " + recipientId + " likes movie " + imageUrl,
-                            }]
-                        }]
-                    }
-                }
-            };
-
-            sendMessage(recipientId, message);
-
-            return true;
-        }
+function sendHelloMessage(recipientId) {
     
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      text: "Hello friend! My name is Mobot. I am your friendly assistant. You may ask me any question of interest to you. At the moment, you may try the suggestions below",
+      quick_replies: [
+            {
+                "content_type":"text",
+                "title":"About Us",
+                "payload":"aboutpayload"
+            },
+            {
+                "content_type":"text",
+                "title":"News",
+                "payload":"newspayload"
+            },
+            {
+                "content_type":"text",
+                "title":"Who are the scholars",
+                "payload":"scholarspayload"
+            },
+            {
+                "content_type":"text",
+                "title":"About the founder",
+                "payload":"newspayload"
+            },
+            {
+                "content_type":"text",
+                "title":"Tell me about your history",
+                "payload":"newspayload"
+            }
+        ]
+      
+    }
+  };
 
-    return false;
+  sendMessage(messageData);
+}
 
-};
+function getUserInfo(userId) {
+  request({
+    uri: 'https://graph.facebook.com/v2.6/'+userId,
+    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
+    method: 'GET'
+    // json: messageData
+
+  }, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      var userFirstName = body.first_name;
+      
+      console.log("Successfully retrieved user info"+body);
+    } else {
+      console.error("Unable to send message.");
+      console.error(response);
+      console.error(error);
+    }
+  });  
+}
+
