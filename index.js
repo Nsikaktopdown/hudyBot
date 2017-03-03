@@ -21,7 +21,6 @@ app.get('/webhook', function (req, res) {
     }
 });
 
-// handler receiving messages
 app.post('/webhook', function (req, res) {
   var data = req.body;
 
@@ -38,15 +37,22 @@ app.post('/webhook', function (req, res) {
         if (event.message) {
           receivedMessage(event);
         }else if (event.postback) {
-          //receivedPostback(event); 
+          receivedPostback(event); 
       } else {
           console.log("Webhook received unknown event: ", event);
         }
       });
     });
 
-}
-}
+    // Assume all went well.
+    //
+    // You must send back a 200, within 20 seconds, to let us know
+    // you've successfully received the callback. Otherwise, the request
+    // will time out and we will keep trying to resend.
+    res.sendStatus(200);
+  }
+});
+  
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -92,7 +98,7 @@ function receivedMessage(event) {
     //     sendTextMessage(senderID, messageText);
     // }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    //sendTextMessage(senderID, "Message with attachment received");
   } 
 };
 
