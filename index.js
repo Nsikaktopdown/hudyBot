@@ -28,7 +28,7 @@ app.post('/webhook', function (req, res) {
         var event = events[i];
         let sender = event.sender.id;
         if (event.message && event.message.text) {
-        	if (!sendGenericMessage(event.sender.id, event.message.text)) {
+        	if (!kittenMessage(event.sender.id, event.message.text)) {
             sendMessage(event.sender.id, {text: event.message.text + " Am locusbot, how may i be of help? "  });
         }
     		}
@@ -56,59 +56,46 @@ function sendMessage(recipientId, message) {
 };
 
 
-function sendGenericMessage(recipientId, text) {
-     text = text || "";
+// send rich message with kitten
+function kittenMessage(recipientId, text) {
+
+    text = text || "";
     var values = text.split(' ');
-    if(text === 'generic'){
 
+    if (values.length === 3 && values[0] === 'kitten') {
+        if (Number(values[1]) > 0 && Number(values[2]) > 0) {
 
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [{
-            title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",               
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
-          }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",               
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
-          }]
+            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
+
+            message = {
+                "attachment": {
+                    "type": "template",
+                    "payload": {
+                        "template_type": "generic",
+                        "elements": [{
+                            "title": "Kitten",
+                            "subtitle": "Cute kitten picture",
+                            "image_url": imageUrl ,
+                            "buttons": [{
+                                "type": "web_url",
+                                "url": imageUrl,
+                                "title": "Show kitten"
+                                }, {
+                                "type": "postback",
+                                "title": "I like this",
+                                "payload": "User " + recipientId + " likes kitten " + imageUrl,
+                            }]
+                        }]
+                    }
+                }
+            };
+
+            sendMessage(recipientId, message);
+
+            return true;
         }
-      }
     }
-  };  
 
-  sendMessage(recipientId,messageData);
+    return false;
 
-  return true;
-}
-
-return false;
 };
