@@ -63,6 +63,7 @@ function sendMessage(recipientId, message) {
         }
     });
 };
+
 function receivedMessage(event) {
   var senderID = event.sender.id;
   var recipientID = event.recipient.id;
@@ -110,7 +111,7 @@ function receivedMessage(event) {
   } else if (messageAttachments) {
     sendTextMessage(senderID, "Message with attachment received");
   } 
-}
+};
 
 
 function sendHelloMessage(recipientId) {
@@ -153,25 +154,5 @@ function sendHelloMessage(recipientId) {
   };
 
   sendMessage(messageData);
-}
-
-function getUserInfo(userId) {
-  request({
-    uri: 'https://graph.facebook.com/v2.6/'+userId,
-    qs: { access_token: process.env.PAGE_ACCESS_TOKEN },
-    method: 'GET'
-    // json: messageData
-
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      var userFirstName = body.first_name;
-      
-      console.log("Successfully retrieved user info"+body);
-    } else {
-      console.error("Unable to send message.");
-      console.error(response);
-      console.error(error);
-    }
-  });  
-}
+};
 
