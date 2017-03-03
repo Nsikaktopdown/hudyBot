@@ -105,7 +105,7 @@ function sendGenericMessage(recipientId, text) {
     }
   };  
 
-  callSendAPI(messageData);
+  sendMessage(recipientId,messageData);
 
   return true;
 }
