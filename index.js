@@ -59,7 +59,7 @@ function sendMessage(recipientId, message) {
 function sendGenericMessage(recipientId, text) {
      text = text || "";
     var values = text.split(' ');
-    if(values[0] === 'generic'){
+    
 
 
   var messageData = {
@@ -107,8 +107,6 @@ function sendGenericMessage(recipientId, text) {
 
   sendMessage(recipientId,messageData);
 
-  return true;
-}
+  
 
-return false;
 };
