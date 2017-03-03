@@ -62,10 +62,10 @@ function kittenMessage(recipientId, text) {
     text = text || "";
     var values = text.split(' ');
 
-    if (values.length === 3 && values[0] === 'kitten') {
-        if (Number(values[1]) > 0 && Number(values[2]) > 0) {
-
-            var imageUrl = "https://placekitten.com/" + Number(values[1]) + "/" + Number(values[2]);
+    if (values[0] === 'movie') {
+       
+            var movieUrl = "https://www.themoviedb.org/movie/341174-fifty-shades-darker"
+            var imageUrl = "https://image.tmdb.org/t/p/w640/pBOFrQtvtEJ0goKO9NmVf3DiAnN.jpg";
 
             message = {
                 "attachment": {
@@ -73,17 +73,17 @@ function kittenMessage(recipientId, text) {
                     "payload": {
                         "template_type": "generic",
                         "elements": [{
-                            "title": "Kitten",
-                            "subtitle": "Cute kitten picture",
+                            "title": "Fifty Shades Darker",
+                            "subtitle": "last Movie picture",
                             "image_url": imageUrl ,
                             "buttons": [{
                                 "type": "web_url",
-                                "url": imageUrl,
-                                "title": "Show kitten"
+                                "url": movieUrl,
+                                "title": "Show movie"
                                 }, {
                                 "type": "postback",
                                 "title": "I like this",
-                                "payload": "User " + recipientId + " likes kitten " + imageUrl,
+                                "payload": "User " + recipientId + " likes movie " + imageUrl,
                             }]
                         }]
                     }
@@ -94,7 +94,7 @@ function kittenMessage(recipientId, text) {
 
             return true;
         }
-    }
+    
 
     return false;
 
