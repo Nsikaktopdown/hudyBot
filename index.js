@@ -243,10 +243,12 @@ function sendProgramMessage(recipientId) {
             //   payload: "Payload for first bubble",
             // }
 
-             ],
+             ]
           }
-    }
-  };  
+    }]
+  }
+}
+};  
 
   callSendAPI(messageData);
 }
