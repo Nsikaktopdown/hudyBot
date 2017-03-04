@@ -83,9 +83,9 @@ function receivedMessage(event) {
     }else if(messageText.includes("Movies") || messageText.includes("Lastest") || messageText.includes("Now Playing") || messageText.includes("Top")){
         sendMovieMessage(senderID);
     }
-    /*else if(messageText.includes("programming") || messageText.includes("Programming") || messageText.includes("Code")){
+    else if(messageText.includes("programming") || messageText.includes("Programming") || messageText.includes("Code")){
         sendProgramMessage(senderID)
-    }*/
+    }
 
     
   } else if (messageAttachments) {
@@ -212,10 +212,10 @@ function sendMovieMessage(recipientId) {
   };  
 
   callSendAPI(messageData);
-}
+};
 
 
-/*function sendProgramMessage(recipientId) {
+function sendProgramMessage(recipientId) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -245,13 +245,14 @@ function sendMovieMessage(recipientId) {
 
              ]
           }
-    }]
+    ]
+    }
+    }
   }
-}
 };  
 
   callSendAPI(messageData);
-}*/
+}
 
 // generic function sending messages
 function callSendAPI(messageData) {
