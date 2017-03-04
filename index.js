@@ -72,13 +72,9 @@ function receivedMessage(event) {
 
      if(messageText.includes("hi") || messageText.includes("hey") || messageText.includes("hello") || messageText.includes("Hi") || messageText.includes("Hello") || messageText.includes("Hey")){
         sendHelloMessage(senderID);
-    }/*else if(messageText.includes("launched") || messageText.includes("created") || messageText.includes("launch")){
-        sendMessage(senderID, "The Foundation was formally launched on 13th February, 2013.");
-    }else if(messageText.includes("history")){
-        sendMessage(senderID, "The Late Chief Andrew Akpan Inyang-Etoh Education Foundation was conceived and instituted by Rt. Rev. Msgr. Peter Andrew Inyang-Etoh to immortalize his late father who had a strong passion for Western education and endeavoured to provide same for his children within his limited resources. The Foundation was formally launched on 13th February, 2013, at the combined celebration of the 70th Birthday and 40th Anniversary of the Priestly Ordination of the Founder, Rt. Rev. Msgr. Peter Andrew Inyang-Etoh, held in the Church of Assumption, Ukana, Essien Udim Local Government Area, Akwa Ibom State.");
-    }else{
-         sendTextMessage(senderID);
-    }*/
+    }else if(messageText.includes("Movies") || messageText.includes("movies") || messageText.includes("videos")){
+        sendGenericMessage(senderID);
+    }
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
@@ -110,31 +106,26 @@ function sendHelloMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: "Hello friend! My name is Mobot. I am your friendly assistant. You may ask me any question of interest to you. At the moment, you may try the suggestions below",
+      text: "Hello friend! My name is Mobot. I am your friendly assistant. What's your area of interest",
       quick_replies: [
             {
                 "content_type":"text",
-                "title":"About Us",
-                "payload":"aboutpayload"
+                "title":"Movies",
+                "payload":"moviespayload"
             },
             {
                 "content_type":"text",
-                "title":"News",
-                "payload":"newspayload"
+                "title":"Music",
+                "payload":"musicpayload"
             },
             {
                 "content_type":"text",
-                "title":"Who are the scholars",
-                "payload":"scholarspayload"
+                "title":"programming",
+                "payload":"programmingspayload"
             },
             {
                 "content_type":"text",
-                "title":"About the founder",
-                "payload":"newspayload"
-            },
-            {
-                "content_type":"text",
-                "title":"Tell me about your history",
+                "title":"cartoons",
                 "payload":"newspayload"
             }
         ]
@@ -144,6 +135,68 @@ function sendHelloMessage(recipientId) {
 
   callSendAPI(messageData);
 };
+
+function sendGenericMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+            title: "Fifty Shades Darker (2017) ",
+            subtitle: "When a wounded Christian Grey tries to entice a cautious Ana Steele back into his life, she demands a new arrangement before she will give him another chance",
+            item_url: "https://www.themoviedb.org/movie/341174-fifty-shades-darker",               
+            image_url: "https://image.tmdb.org/t/p/w640/7SMCz5724COOYDhY0mj0NfcJqxH.jpg",
+            buttons: [
+            {
+              type: "web_url",
+              url: "https://www.youtube.com/watch?v=n6BVyk7hty8",
+              title: "Watch trailer"
+            },
+            {
+              type: "web_url",
+              url: "http://caaiefoundation.org/chief-andrew-akpan-inyang-etoh-3",
+              title: "Reviews"
+            }
+
+            // , {
+            //   type: "postback",
+            //   title: "Call Postback",
+            //   payload: "Payload for first bubble",
+            // }
+
+             ],
+          }
+          ]
+        }
+      },
+
+      quick_replies: [
+            {
+                "content_type":"text",
+                "title":"Lastest",
+                "payload":"lastestpayload"
+            },
+            {
+                "content_type":"text",
+                "title":"Now Playing",
+                "payload":"nowplayingpayload"
+            },
+            {
+                "content_type":"text",
+                "title":"Top",
+                "payload":"toppayload"
+            }
+        ]
+    }
+  };  
+
+  callSendAPI(messageData);
+}
 
 // generic function sending messages
 function callSendAPI(messageData) {
