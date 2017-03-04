@@ -1,3 +1,11 @@
+/*Install Git bash
+Get signed up at heroku 
+Install heroku Toolkit
+Create a Facebook App at developer.facebook.com
+Create a facebook page*/
+
+
+
 var express = require('express');  
 var bodyParser = require('body-parser');  
 var request = require('request');  
@@ -159,7 +167,32 @@ function sendGenericMessage(recipientId) {
             },
             {
               type: "web_url",
-              url: "http://caaiefoundation.org/chief-andrew-akpan-inyang-etoh-3",
+              url: "https://www.themoviedb.org/movie/341174-fifty-shades-darker",
+              title: "Reviews"
+            }
+
+            // , {
+            //   type: "postback",
+            //   title: "Call Postback",
+            //   payload: "Payload for first bubble",
+            // }
+
+             ],
+          },
+          {
+            title: "Rings (2017)",
+            subtitle: "Julia becomes worried about her boyfriend, Holt when he explores the dark urban legend of a mysterious videotape said to kill the watcher seven days after viewing.",
+            item_url: "https://www.themoviedb.org/movie/14564-the-ring-three",               
+            image_url: "https://image.tmdb.org/t/p/w640/bbxtz5V0vvnTDA2qWbiiRC77Ok9.jpg",
+            buttons: [
+            {
+              type: "web_url",
+              url: "https://www.youtube.com/watch?v=NFB4eZSVgBE",
+              title: "Watch trailer"
+            },
+            {
+              type: "web_url",
+              url: "https://www.themoviedb.org/movie/14564-the-ring-three",
               title: "Reviews"
             }
 
@@ -190,7 +223,7 @@ function sendGenericMessage(recipientId) {
                 "content_type":"text",
                 "title":"Top",
                 "payload":"toppayload"
-            }
+            },
         ]
     }
   };  
