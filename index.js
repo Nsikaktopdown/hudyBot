@@ -83,25 +83,11 @@ function receivedMessage(event) {
     }else if(messageText.includes("Movies") || messageText.includes("Lastest") || messageText.includes("Now Playing") || messageText.includes("Top")){
         sendMovieMessage(senderID);
     }
-    else if(messageText.includes("programming") || messageText.includes("Programming") || messageText.includes("Code") )
+    else if(messageText.includes("programming") || messageText.includes("Programming") || messageText.includes("Code")){
+        sendProgramMessage(senderID)
+    }
 
-    // If we receive a text message, check to see if it matches a keyword
-    // and send back the example. Otherwise, just echo the text we received.
-    // switch (messageText) {
-    //   case messageText.includes("about"):
-    //     sendAboutMessage(senderID);
-    //     break;
-    //   case messageText.includes("award"):
-    //     sendAwardMessage(senderID);
-    //     break;
-    //   case messageText.includes("scholar"):
-    //     sendBeneficiaryMessage(senderID);
-    //     break;
-
-
-    //   default:
-    //     sendTextMessage(senderID, messageText);
-    // }
+    
   } else if (messageAttachments) {
     //sendTextMessage(senderID, "Message with attachment received");
   } 
