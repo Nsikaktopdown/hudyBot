@@ -80,9 +80,10 @@ function receivedMessage(event) {
 
      if(messageText.includes("hi") || messageText.includes("hey") || messageText.includes("hello") || messageText.includes("Hi") || messageText.includes("Hello") || messageText.includes("Hey")){
         sendHelloMessage(senderID);
-    }else if(messageText.includes("Movies") || messageText.includes("movies") || messageText.includes("videos")){
-        sendGenericMessage(senderID);
+    }else if(messageText.includes("Movies") || messageText.includes("Lastest") || messageText.includes("Now Playing") || messageText.includes("Top")){
+        sendMovieMessage(senderID);
     }
+    else if(messageText.includes("programming") || messageText.includes("Programming") || messageText.includes("Code") )
 
     // If we receive a text message, check to see if it matches a keyword
     // and send back the example. Otherwise, just echo the text we received.
@@ -123,11 +124,6 @@ function sendHelloMessage(recipientId) {
             },
             {
                 "content_type":"text",
-                "title":"Music",
-                "payload":"musicpayload"
-            },
-            {
-                "content_type":"text",
                 "title":"programming",
                 "payload":"programmingspayload"
             },
@@ -144,7 +140,8 @@ function sendHelloMessage(recipientId) {
   callSendAPI(messageData);
 };
 
-function sendGenericMessage(recipientId) {
+
+function sendMovieMessage(recipientId) {
   var messageData = {
     recipient: {
       id: recipientId
@@ -225,6 +222,43 @@ function sendGenericMessage(recipientId) {
                 "payload":"toppayload"
             },
         ]
+    }
+  };  
+
+  callSendAPI(messageData);
+}
+
+
+function sendProgramMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "generic",
+          elements: [{
+            title: "Material Design Components with Volley",
+            subtitle: "When a wounded Christian Grey tries to entice a cautious Ana Steele back into his life, she demands a new arrangement before she will give him another chance",
+            item_url: "http://code2build.blogspot.com.ng/2016/12/test.html",               
+            image_url: "https://1.bp.blogspot.com/-2uIeeXtCAlw/WGtHEUiX_pI/AAAAAAAAAf0/zZTOfy3BKpEOP0JQ6WjiMxT2kcw8YoOvQCLcB/s640/Material%2Bdesign%2BComponet%2Bwith%2BVolley%2B%25281%2529.jpg",
+            buttons: [
+            {
+              type: "web_url",
+              url: "http://code2build.blogspot.com.ng/2016/12/test.html",
+              title: "Visit"
+            }
+
+            // , {
+            //   type: "postback",
+            //   title: "Call Postback",
+            //   payload: "Payload for first bubble",
+            // }
+
+             ],
+          }
     }
   };  
 
